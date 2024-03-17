@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Bangkit-2024-IP-BFAA</string>
+
+    <!-- Option Menu -->
+    <string name="app_bar">Github User\'s Search</string>
+    <string name="user_setting">User Setting</string>
+
+    <!-- Search Bar -->
+    <string name="search_hint">Search User Github</string>
+</resources>
