@@ -7,4 +7,5 @@
 
     <!-- Search Bar -->
     <string name="search_hint">Search User Github</string>
+    <string name="nama_user">Nama User Tidak Tersedia</string>
 </resources>
