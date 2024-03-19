@@ -1,6 +1,5 @@
-package com.example.bangkit_2024_ip_bfaa.ui.searchuserpage
+package com.example.bangkit_2024_ip_bfaa.ui.detailuser
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,14 +9,8 @@ import com.bumptech.glide.Glide
 import com.example.bangkit_2024_ip_bfaa.data.response.UserResponse
 import com.example.bangkit_2024_ip_bfaa.databinding.ItemListUserBinding
 
-class UserAdapter(private val listUser: List<UserResponse>) : ListAdapter<UserResponse, UserAdapter.ViewHolder>(DIFF_CALLBACK) {
-    private lateinit var onItemClickCallBack: OnItemClickCallBack
-
-    fun setOnItemClickCallBack(onItemClickCallBack: OnItemClickCallBack) {
-        this.onItemClickCallBack = onItemClickCallBack
-    }
-
-    class ViewHolder(val binding: ItemListUserBinding) : RecyclerView.ViewHolder(binding.root) {
+class FollowAdapter: ListAdapter<UserResponse, FollowAdapter.ViewHolder>(DIFF_CALLBACK) {
+    class ViewHolder(val binding: ItemListUserBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(items: UserResponse) {
             Glide.with(itemView.context)
                 .load(items.avatarUrl)
@@ -26,6 +19,7 @@ class UserAdapter(private val listUser: List<UserResponse>) : ListAdapter<UserRe
             binding.tvNama.text = items.login
         }
     }
+
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserResponse>() {
@@ -40,21 +34,12 @@ class UserAdapter(private val listUser: List<UserResponse>) : ListAdapter<UserRe
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemListUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemListUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = getItem(position)
         holder.bind(items)
-
-        holder.itemView.setOnClickListener {
-            onItemClickCallBack.onItemClicked(listUser[holder.adapterPosition])
-        }
-    }
-
-    interface OnItemClickCallBack {
-        fun onItemClicked(data: UserResponse)
     }
 }

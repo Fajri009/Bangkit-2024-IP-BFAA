@@ -1,38 +1,43 @@
 package com.example.bangkit_2024_ip_bfaa.ui.searchuserpage
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bangkit_2024_ip_bfaa.data.response.UserResponse
-import com.example.bangkit_2024_ip_bfaa.databinding.ActivityHomeBinding
+import com.example.bangkit_2024_ip_bfaa.databinding.ActivityHomePageBinding
+import com.example.bangkit_2024_ip_bfaa.ui.detailuser.DetailPage
 
 class HomePage : AppCompatActivity() {
-    private lateinit var binding: ActivityHomeBinding
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private lateinit var binding: ActivityHomePageBinding
+    private val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val layoutInflater = LinearLayoutManager(this)
-        binding.rvUser.layoutManager = layoutInflater
+        showRecyclerList()
 
-        homeViewModel.listUser.observe(this) {
+        viewModel.listUser.observe(this) {
             setUserData(it)
         }
 
-        homeViewModel.isLoading.observe(this) {
+        viewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
         search(binding)
     }
 
-    private fun search(binding: ActivityHomeBinding) {
+    private fun showRecyclerList() {
+        val layoutInflater = LinearLayoutManager(this)
+        binding.rvUser.layoutManager = layoutInflater
+    }
+
+    private fun search(binding: ActivityHomePageBinding) {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -40,16 +45,28 @@ class HomePage : AppCompatActivity() {
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     searchView.hide()
-                    homeViewModel.findUsers(searchView.text.toString())
+                    viewModel.findUsers(searchView.text.toString())
                     false
                 }
         }
     }
 
     private fun setUserData(user: List<UserResponse>) {
-        val adapter = UserAdapter()
+        val adapter = UserAdapter(user)
         adapter.submitList(user)
         binding.rvUser.adapter = adapter
+
+        adapter.setOnItemClickCallBack(object : UserAdapter.OnItemClickCallBack {
+            override fun onItemClicked(data: UserResponse) {
+                showSelectedUser(data)
+            }
+        })
+    }
+
+    private fun showSelectedUser(data: UserResponse) {
+        val moveWithParcelableIntent = Intent(this@HomePage, DetailPage::class.java)
+        moveWithParcelableIntent.putExtra(DetailPage.EXTRA_USER, data)
+        startActivity(moveWithParcelableIntent)
     }
 
     private fun showLoading(isLoading: Boolean) {

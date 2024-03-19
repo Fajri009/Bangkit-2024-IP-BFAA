@@ -8,4 +8,8 @@
     <!-- Search Bar -->
     <string name="search_hint">Search User Github</string>
     <string name="nama_user">Nama User Tidak Tersedia</string>
+
+    <!-- Tab Title -->
+    <string name="tab_title_1">Follower</string>
+    <string name="tab_title_2">Following</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.example.bangkit_2024_ip_bfaa.data.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class GithubResponse(
 
@@ -14,6 +16,7 @@ data class GithubResponse(
 	val items: List<UserResponse>
 )
 
+@Parcelize
 data class UserResponse(
 
 	@field:SerializedName("gists_url")
@@ -43,8 +46,8 @@ data class UserResponse(
 	@field:SerializedName("subscriptions_url")
 	val subscriptionsUrl: String,
 
-	@field:SerializedName("score")
-	val score: Any,
+//	@field:SerializedName("score")
+//	val score: Any,
 
 	@field:SerializedName("received_events_url")
 	val receivedEventsUrl: String,
@@ -72,4 +75,4 @@ data class UserResponse(
 
 	@field:SerializedName("organizations_url")
 	val organizationsUrl: String
-)
+): Parcelable
